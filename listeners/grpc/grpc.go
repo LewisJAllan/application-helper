@@ -109,7 +109,7 @@ type Handler struct {
 	server    *grpc.Server
 }
 
-func (h *Handler) Serve(ctx context.Context) error {
+func (h *Handler) Start(ctx context.Context) error {
 	l, err := h.listenCfg.Listen(ctx, "tcp", h.addr)
 	if err != nil {
 		return fmt.Errorf("grpc: unable to create listener: %w", err)
@@ -124,7 +124,7 @@ func (h *Handler) Serve(ctx context.Context) error {
 	return s.Serve(l)
 }
 
-func (h *Handler) Close(_ context.Context) error {
+func (h *Handler) Stop(_ context.Context) error {
 	h.server.GracefulStop()
 	return nil
 }

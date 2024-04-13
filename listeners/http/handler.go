@@ -14,8 +14,8 @@ type Mux struct {
 	*mux.Router
 }
 
-// HTTPHandler is exposed for testing, not to be used for creating HTTP serves.
-func HTTPHandler(h Handler, opts ...handlerOptsFunc) http.Handler {
+// HttpHandler is exposed for testing, not to be used for creating HTTP serves.
+func HttpHandler(h Handler, opts ...handlerOptsFunc) http.Handler {
 	t := mux.NewRouter()
 	m := &Mux{t}
 	h.ApplyRoutes(m)

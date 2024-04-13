@@ -45,8 +45,8 @@ func New(h Handler, opts ...Option) *Listener {
 	return l
 }
 
-// Serve serves http requests
-func (l *Listener) Serve(ctx context.Context) error {
+// Start runs the server to listen for http requests
+func (l *Listener) Start(ctx context.Context) error {
 	// creating this here so that tracing setup pulls in the service name from the global config.  If it was done in
 	// New, it is possible for users to call it before running the application, which is what will set up tracing, and
 	// in turn its global config.  This means users will not get their traces in APM and not know why.  Tracing is a TODO...
@@ -60,7 +60,7 @@ func (l *Listener) Serve(ctx context.Context) error {
 		opts = append(opts, withCorsConfig(l.corsConfig))
 	}
 
-	h := HTTPHandler(l.handler, opts...)
+	h := HttpHandler(l.handler, opts...)
 	if l.allowQuerySemicolons {
 		h = http.AllowQuerySemicolons(h)
 	}
@@ -75,8 +75,8 @@ func (l *Listener) Serve(ctx context.Context) error {
 	return nil
 }
 
-// Close shuts down the listerner
-func (l *Listener) Close(ctx context.Context) error {
+// Stop shuts down the listener
+func (l *Listener) Stop(ctx context.Context) error {
 	if err := l.server.Shutdown(ctx); err != nil {
 		if isContextErr(err) {
 			_ = l.server.Close()
