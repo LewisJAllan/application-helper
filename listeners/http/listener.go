@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/rs/cors"
+
+	"github.com/LewisJAllan/application-helper/zaphelper"
 )
 
 type Listener struct {
@@ -25,7 +27,7 @@ func New(h Handler, opts ...Option) *Listener {
 	l := &Listener{
 		server: &http.Server{
 			BaseContext: func(listener net.Listener) context.Context {
-				return context.Background()
+				return context.WithValue(context.Background(), struct{}{}, zaphelper.FromContext(context.Background()))
 			},
 			ReadTimeout:  5 * time.Second,
 			WriteTimeout: 10 * time.Second,
