@@ -3,8 +3,10 @@ module github.com/LewisJAllan/application-helper
 go 1.22
 
 require (
+	github.com/gorilla/mux v1.8.1
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
+	github.com/rs/cors v1.10.1
 	google.golang.org/grpc v1.61.1
 )
 
