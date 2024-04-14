@@ -7,6 +7,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/rs/cors v1.10.1
+	go.uber.org/automaxprocs v1.5.3
 	go.uber.org/zap v1.18.1
 	google.golang.org/grpc v1.61.1
 )
