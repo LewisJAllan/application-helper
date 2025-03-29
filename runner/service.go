@@ -152,7 +152,7 @@ func (s *Service) setupRunners(ctx context.Context, setupApplication SetupApplic
 	}
 }
 
-// stop terminates all listeners in parrallel.  Each runner is terminated in their own go routine
+// stop terminates all listeners in parallel.  Each runner is terminated in their own go routine
 func (s *Service) stop(ctx context.Context, runners []Runner) {
 	ctx, cancel := context.WithTimeout(ctx, s.options.shutdownTimeout)
 	defer cancel()
