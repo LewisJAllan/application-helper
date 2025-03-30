@@ -24,11 +24,18 @@ type Service struct {
 	name    string
 	options options
 
+	onShutdown []func(context.Context)
+
 	stopSignalTime int64
 }
 
 func (s *Service) Name() string {
 	return s.name
+}
+
+func (s *Service) OnShutdown(fn func(context.Context)) *Service {
+	s.onShutdown = append(s.onShutdown, fn)
+	return s
 }
 
 // TODO: expand on options, timeouts, health checker, readiness and liveness
@@ -152,7 +159,7 @@ func (s *Service) setupRunners(ctx context.Context, setupApplication SetupApplic
 	}
 }
 
-// stop terminates all listeners in parallel.  Each runner is terminated in their own go routine
+// stop terminates all runners in parallel.  Each runner is terminated in their own go routine
 func (s *Service) stop(ctx context.Context, runners []Runner) {
 	ctx, cancel := context.WithTimeout(ctx, s.options.shutdownTimeout)
 	defer cancel()
