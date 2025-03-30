@@ -109,6 +109,21 @@ type Handler struct {
 	server    *grpc.Server
 }
 
+func New(r Registerer, opts ...Option) *Handler {
+	o := options{}
+
+	for _, opt := range opts {
+		opt(&o)
+	}
+
+	return &Handler{
+		opts:      o.grpcServerOpts(),
+		r:         r,
+		listenCfg: &net.ListenConfig{},
+		addr:      ":50051",
+	}
+}
+
 func (h *Handler) Start(ctx context.Context) error {
 	l, err := h.listenCfg.Listen(ctx, "tcp", h.addr)
 	if err != nil {
